@@ -54,6 +54,8 @@ class Game {
     this.healthPackTimer = 0;  // 血包计时器
     this.ducks = [];           // 鸭子数组
     this.duckTimer = 0;        // 鸭子计时器
+    this.doubaoDashCooldown = 0; // 豆包冲撞冷却
+    this.stunSprite = null;     // 敌人眩晕贴图
 
     this.ui.on('start', () => this.startGame());
     this.ui.on('restart', () => this.restartGame());
@@ -107,6 +109,8 @@ class Game {
     this.healthPackTimer = CONFIG.HEALTH_PACK_SPAWN_TIME;
     this.ducks = [];
     this.duckTimer = CONFIG.DUCK_SPAWN_INTERVAL;
+    this.doubaoDashCooldown = 0;
+    this._preloadStunSprite();
     this._preloadFireBullet();
 
     const equippedSkinId = this.storage.getEquippedSkin();
@@ -229,29 +233,23 @@ class Game {
     }
 
     if (kb[bindings.shoot] || this.input.mouse.down || this.touch.attacking) {
-      const bullet = this.player.shoot();
-      if (bullet) {
-        // 小白特殊能力：每5发下一发3倍伤害+火弹贴图
-        if (this._isWhiteSkin() && this.bulletCounter >= 0) {
-          this.bulletCounter++;
-          if (this.bulletCounter >= 5) {
-            this.bulletCounter = 0;
-            bullet.damage = CONFIG.BULLET_DAMAGE * 3;
-            bullet.size = 16;
-            bullet.trailColor = '#FF3333';
-            if (this.fireBulletImg && this.fireBulletImg.loaded) {
-              bullet.image = this.fireBulletImg;
-            }
-          }
+      // 豆包特殊能力：直线无墙时冲撞敌人
+      if (this._isDoubaoSkin() && this.doubaoDashCooldown <= 0) {
+        const dashTarget = this._findDashTarget();
+        if (dashTarget) {
+          this._doDoubaoDash(dashTarget);
+        } else {
+          this._fireBullet();
         }
-        this.bullets.push(bullet);
-        this.sound.play('shoot');
+      } else {
+        this._fireBullet();
       }
     }
   }
 
   update(deltaTime) {
     this.player.update(deltaTime);
+    if (this.doubaoDashCooldown > 0) this.doubaoDashCooldown -= deltaTime;
 
     this.collision.checkEntityWalls(this.player);
     this.clampToBounds(this.player);
@@ -434,6 +432,96 @@ class Game {
   _isWhiteSkin() {
     const equippedSkinId = this.storage.getEquippedSkin();
     return equippedSkinId === 'white';
+  }
+
+  // === 豆包皮肤判定 ===
+  _isDoubaoSkin() {
+    const equippedSkinId = this.storage.getEquippedSkin();
+    return equippedSkinId === 'doubao';
+  }
+
+  // === 子弹轨迹颜色（根据地图） ===
+  _getBulletTrailColor() {
+    const mapId = this.storage.getEquippedMap();
+    switch (mapId) {
+      case 'default':  return '#FFFFFF'; // 猫窝 → 白色
+      case 'desert':   return '#FFFF00'; // 森林 → 亮黄色
+      case 'bathtub':  return '#00008B'; // 浴缸 → 深蓝色
+      default:         return '#CC8800';
+    }
+  }
+
+  // === 发射子弹 ===
+  _fireBullet() {
+    const bullet = this.player.shoot();
+    if (!bullet) return;
+    // 小白特殊能力：每5发下一发3倍伤害+火弹贴图
+    if (this._isWhiteSkin() && this.bulletCounter >= 0) {
+      this.bulletCounter++;
+      if (this.bulletCounter >= 5) {
+        this.bulletCounter = 0;
+        bullet.damage = CONFIG.BULLET_DAMAGE * 3;
+        bullet.size = 16;
+        bullet.trailColor = '#FF3333';
+        if (this.fireBulletImg && this.fireBulletImg.loaded) {
+          bullet.image = this.fireBulletImg;
+        }
+      }
+    }
+    // 非小白特殊子弹时应用地图颜色
+    if (!(this._isWhiteSkin() && this.bulletCounter === 0)) {
+      bullet.trailColor = this._getBulletTrailColor();
+    }
+    this.bullets.push(bullet);
+    this.sound.play('shoot');
+  }
+
+  // === 豆包冲撞：寻找直线无墙的敌人 ===
+  _findDashTarget() {
+    for (const ai of this.ais) {
+      if (ai.state === 'death') continue;
+      if (ai.stunned) continue;
+      if (this._canSeeEntity(this.player, ai)) {
+        return ai;
+      }
+    }
+    return null;
+  }
+
+  // === 豆包冲撞执行 ===
+  _doDoubaoDash(target) {
+    // 玩家移动到敌人位置
+    this.player.x = target.x;
+    this.player.y = target.y;
+    // 冷却5秒
+    this.doubaoDashCooldown = 5000;
+    // 敌人眩晕1.5秒
+    target.applyStun(1500, this.stunSprite);
+    this.sound.play('shoot');
+  }
+
+  // === 视线检测（两点之间无墙壁） ===
+  _canSeeEntity(from, to) {
+    const steps = 30;
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const cx = from.x + (to.x - from.x) * t;
+      const cy = from.y + (to.y - from.y) * t;
+      const col = Math.floor(cx / CONFIG.GRID_SIZE);
+      const row = Math.floor(cy / CONFIG.GRID_SIZE);
+      if (this.map.getTile(col, row) !== 0) return false;
+    }
+    return true;
+  }
+
+  // === 眩晕贴图预加载 ===
+  _preloadStunSprite() {
+    if (!this.stunSprite) {
+      this.stunSprite = { img: new Image(), loaded: false };
+    }
+    this.stunSprite.img.src = 'assets/enemy-stun.png';
+    this.stunSprite.loaded = false;
+    this.stunSprite.img.onload = () => { this.stunSprite.loaded = true; };
   }
 
   // === 火弹贴图预加载 ===
