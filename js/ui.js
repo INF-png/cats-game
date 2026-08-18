@@ -351,6 +351,17 @@ export class UIManager {
     mapLabel.textContent = mapName;
     overlay.appendChild(mapLabel);
 
+    const tips = [
+      '只有在限定时间内击杀所有敌人后才能胜利~',
+      '最后三十秒敌方猫猫会进入应激状态：移动速度和攻击速度大幅提升~',
+      '地图中的血包可以恢复角色50%的生命值~',
+      '有些地图拥有特殊机制，尝试探索吧~',
+    ];
+    const tipText = document.createElement('p');
+    tipText.className = 'loading-tip';
+    tipText.textContent = tips[Math.floor(Math.random() * tips.length)];
+    overlay.appendChild(tipText);
+
     const loadingText = document.createElement('p');
     loadingText.className = 'loading-text';
     loadingText.textContent = getText('loadingText');
