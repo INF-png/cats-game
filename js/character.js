@@ -13,6 +13,7 @@ export class CatCharacter extends Entity {
     this.speed = CONFIG.CAT_SPEED;
     this.hp = maxHp;
     this.maxHp = maxHp;
+    this.reloadTime = owner === 'player' ? CONFIG.PLAYER_RELOAD_TIME : CONFIG.RELOAD_TIME;
     this.reloadTimer = 0;
     this.state = 'idle';
     this.stateTimer = 0;
@@ -60,18 +61,21 @@ export class CatCharacter extends Entity {
   shoot() {
     if (this.state === 'death') return null;
     if (this.reloadTimer > 0) return null;
-    this.reloadTimer = CONFIG.RELOAD_TIME;
+    this.reloadTimer = this.reloadTime;
     this.setState('attack');
     this.attackEffectTimer = 200;
 
     const bulletImage = this.sprites.bullet;
+    const isPlayer = this.owner === 'player';
     return new Bullet(
       this.x, this.y,
       this.angle,
       CONFIG.BULLET_SPEED,
       CONFIG.BULLET_DAMAGE,
       this.owner,
-      bulletImage
+      bulletImage,
+      isPlayer ? 8 : 4,
+      isPlayer ? '#FFD700' : '#000000'
     );
   }
 
