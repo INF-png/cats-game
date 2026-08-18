@@ -136,7 +136,8 @@ class Game {
 
     // 随机出生点
     const spawns = this.map.getSpawnPoints();
-    this.player = new CatCharacter(spawns.player.x, spawns.player.y, 'player', skinData, this.playerSprites);
+    const playerMaxHp = skinData.hpMultiplier ? CONFIG.CAT_MAX_HP * skinData.hpMultiplier : CONFIG.CAT_MAX_HP;
+    this.player = new CatCharacter(spawns.player.x, spawns.player.y, 'player', skinData, this.playerSprites, playerMaxHp);
 
     const difficulty = this.ui.getDifficulty();
 
