@@ -20,6 +20,10 @@ export class CatCharacter extends Entity {
     this.attackEffectTimer = 0;
     this.slowTimer = 0;       // 减速剩余时间
     this.baseSpeed = CONFIG.CAT_SPEED; // 基础速度
+    this.stunned = false;    // 眩晕状态
+    this.stunTimer = 0;      // 眩晕剩余时间
+    this.stunSprite = null;   // 眩晕贴图
+    this._originalSprites = null; // 原始贴图备份
   }
 
   setState(newState) {
@@ -39,6 +43,14 @@ export class CatCharacter extends Entity {
         this.speed = this.baseSpeed;
       }
     }
+    // 眩晕计时器
+    if (this.stunTimer > 0) {
+      this.stunTimer -= deltaTime;
+      if (this.stunTimer <= 0) {
+        this.stunned = false;
+        this._restoreSprites();
+      }
+    }
 
     if (this.state === 'attack' && this.stateTimer >= CONFIG.ATTACK_STATE_DURATION) {
       this.setState('idle');
@@ -47,6 +59,7 @@ export class CatCharacter extends Entity {
 
   move(direction) {
     if (this.state === 'death') return;
+    if (this.stunned) return;
     const newX = this.x + direction.x * this.speed;
     const newY = this.y + direction.y * this.speed;
     this.x = newX;
@@ -61,6 +74,7 @@ export class CatCharacter extends Entity {
   shoot() {
     if (this.state === 'death') return null;
     if (this.reloadTimer > 0) return null;
+    if (this.stunned) return null;
     this.reloadTimer = this.reloadTime;
     this.setState('attack');
     this.attackEffectTimer = 200;
@@ -92,6 +106,26 @@ export class CatCharacter extends Entity {
   applySlow(duration = 5000) {
     this.speed = this.baseSpeed * 0.5;
     this.slowTimer = duration;
+  }
+
+  // 眩晕效果：停止移动和攻击
+  applyStun(duration = 1500, stunSprite = null) {
+    this.stunned = true;
+    this.stunTimer = duration;
+    if (stunSprite && !this._originalSprites) {
+      this._originalSprites = { ...this.sprites };
+      this.sprites.idle = stunSprite;
+      this.sprites.attack = stunSprite;
+      this.sprites.death = this._originalSprites.death;
+    }
+    this.setState('idle');
+  }
+
+  _restoreSprites() {
+    if (this._originalSprites) {
+      this.sprites = this._originalSprites;
+      this._originalSprites = null;
+    }
   }
 
   draw(ctx) {
