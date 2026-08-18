@@ -63,6 +63,8 @@ export const SKINS = [
     name: '牛奶',
     price: 300,
     description: '会让某人过敏的猫猫',
+    specialAbility: '拥有两倍生命值的猫猫',
+    hpMultiplier: 2,
     _color: '#ffffff',
     _accent: '#FFD700',
     _eye: '#000000',
