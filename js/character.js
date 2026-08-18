@@ -75,7 +75,7 @@ export class CatCharacter extends Entity {
       this.owner,
       bulletImage,
       isPlayer ? 8 : 4,
-      isPlayer ? '#FFD700' : '#000000'
+      isPlayer ? '#CC8800' : '#000000'
     );
   }
 
