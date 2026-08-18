@@ -3,8 +3,8 @@ import { Entity } from './entity.js';
 import { CONFIG } from './config.js';
 
 export class Bullet extends Entity {
-  constructor(x, y, angle, speed, damage, owner, image) {
-    super(x, y, 8, 8);
+  constructor(x, y, angle, speed, damage, owner, image, size = 8, trailColor = '#FFD700') {
+    super(x, y, size, size);
     this.vx = Math.cos(angle) * speed;
     this.vy = Math.sin(angle) * speed;
     this.damage = damage;
@@ -12,8 +12,8 @@ export class Bullet extends Entity {
     this.trail = [];
     this.owner = owner;
     this.image = image;
-    this.size = 8;         // 贴图尺寸（火弹16）
-    this.trailColor = '#FFD700'; // 尾迹颜色（火弹红色）
+    this.size = size;
+    this.trailColor = trailColor;
   }
 
   update(deltaTime) {
