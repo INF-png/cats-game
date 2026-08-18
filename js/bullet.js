@@ -67,7 +67,7 @@ export class Bullet extends Entity {
       const g = parseInt(color.slice(3, 5), 16);
       const b = parseInt(color.slice(5, 7), 16);
       ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
-      ctx.lineWidth = this.size > 8 ? 3 : 2;
+      ctx.lineWidth = this.size > 8 ? 6 : 4;
       ctx.beginPath();
       ctx.moveTo(prev.x, prev.y);
       ctx.lineTo(curr.x, curr.y);
