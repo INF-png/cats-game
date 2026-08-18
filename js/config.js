@@ -46,7 +46,7 @@ export const CONFIG = {
   // === 积分与奖惩 ===
   POINTS: {
     WIN_BASE: 100,
-    LOSE_PENALTY: -30,
+    LOSE_PENALTY: -100,
     DIFFICULTY_MULTIPLIER: { 0: 0.5, 1: 1.0, 2: 2.0 },
     PERFECT_BONUS: 50,
     QUICK_WIN_BONUS: 30,
