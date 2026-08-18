@@ -38,6 +38,7 @@ export class AIController {
 
   update(deltaTime) {
     if (this.char.state === 'death') return null;
+    if (this.char.stunned) return null;
 
     this.patrolTimer += deltaTime;
     this.reactionTimer += deltaTime;
