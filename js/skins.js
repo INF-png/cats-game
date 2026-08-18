@@ -42,9 +42,9 @@ export const SKINS = [
   {
     id: 'doubao',
     name: '豆包',
-    price: 800,
+    price: 600,
     description: '一只蓝猫',
-    specialAbility: '直线无墙时冲撞敌人使其眩晕1.5秒',
+    specialAbility: '当与敌人猫猫直线距离内无障碍时冲撞敌人，造成1.5s的眩晕！！',
     _color: '#4A90D9',
     _accent: '#87CEEB',
     _eye: '#000000',
