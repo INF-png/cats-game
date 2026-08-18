@@ -13,7 +13,7 @@ export class StorageManager {
       try { return JSON.parse(raw); } catch (e) { /* fall through */ }
     }
     return {
-      points: 0,
+      points: 200,
       unlockedSkins: ['default'],
       unlockedMaps: ['default'],
       unlockedAttacks: ['fish'],
@@ -107,7 +107,7 @@ export class StorageManager {
 
   resetAll() {
     this.data = {
-      points: 0,
+      points: 200,
       unlockedSkins: ['default'],
       unlockedMaps: ['default'],
       unlockedAttacks: ['fish'],
