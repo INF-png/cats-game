@@ -1,0 +1,759 @@
+/* style.css - 像素风 UI 样式（CATs 双语版） */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #1a1a2a;
+  color: #fff;
+  font-family: 'Press Start 2P', 'PingFang SC', 'Microsoft YaHei', '苹方', sans-serif;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#game-wrapper {
+  position: relative;
+}
+
+#game-container {
+  position: relative;
+  width: 1200px;
+  height: 600px;
+}
+
+#game-canvas {
+  display: block;
+  image-rendering: pixelated;
+  touch-action: none;
+  pointer-events: none;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#ui-layer > div {
+  pointer-events: auto;
+}
+
+/* === 语言选择 === */
+.lang-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.lang-title {
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.lang-subtitle {
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.lang-btn-group {
+  display: flex;
+  gap: 20px;
+}
+
+.lang-btn {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 14px 36px;
+  color: #fff;
+  background: transparent;
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* === 地图选择 === */
+.map-select-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.map-select-title {
+  font-size: 14px;
+  color: #FFD700;
+}
+
+.map-select-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.map-select-card {
+  border: 2px solid #444;
+  cursor: pointer;
+  padding: 4px;
+  transition: border-color 0.2s;
+}
+.map-select-card.selected {
+  border-color: #FFD700;
+}
+.map-select-card:hover {
+  border-color: #888;
+}
+
+.map-select-preview {
+  width: 80px;
+  height: 50px;
+}
+
+.map-select-name {
+  font-size: 9px;
+  text-align: center;
+  margin-top: 2px;
+  color: #ccc;
+}
+
+/* === Loading === */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.loading-map-name {
+  font-size: 14px;
+  color: #fff;
+}
+
+.loading-text {
+  font-size: 12px;
+  color: #888;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* === 菜单 === */
+#menu-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: url('../assets/menu-bg.png') center/cover no-repeat;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.game-title-img {
+  width: 320px;
+  height: auto;
+  image-rendering: pixelated;
+  margin-bottom: 8px;
+}
+
+.game-title {
+  font-size: 48px;
+  font-weight: bold;
+  color: #FFD700;
+  text-shadow: 3px 3px 0 #8B4513;
+  letter-spacing: 8px;
+}
+
+.menu-character-preview {
+  width: 160px;
+  height: 160px;
+  background: #111;
+  border: 2px solid #333;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.menu-character-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.menu-btn {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 12px 48px;
+  background: #333;
+  color: #fff;
+  border: 2px solid #666;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.menu-btn:hover {
+  background: #555;
+}
+.menu-btn-secondary {
+  font-size: 16px;
+  padding: 10px 32px;
+}
+
+.difficulty-select {
+  font-size: 16px;
+  margin-top: 8px;
+}
+.difficulty-select select {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 6px 12px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+.menu-points {
+  font-size: 18px;
+  color: #FFD700;
+}
+
+/* === 菜单语言切换 === */
+.menu-lang {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lang-toggle-btn {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 16px;
+  background: #333;
+  color: #aaa;
+  border: 1px solid #555;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-toggle-btn:hover {
+  background: #555;
+  color: #fff;
+}
+.lang-toggle-btn.active {
+  background: #1976D2;
+  color: #fff;
+  border-color: #2196F3;
+}
+
+/* === HUD === */
+#hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 6px 10px;
+  pointer-events: none;
+}
+
+.hud-left, .hud-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-right {
+  align-items: flex-end;
+}
+
+.hud-label {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.hud-hp-bar {
+  width: 200px;
+  height: 14px;
+  background: #333;
+  border: 1px solid #555;
+}
+
+.hud-hp-fill {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.2s;
+}
+.hud-ai-fill {
+  background: #F44336;
+}
+
+.hud-hp-text {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.hud-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hud-timer {
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* === 结算 === */
+#settlement-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.settlement-card {
+  background: #1a1a1a;
+  border: 2px solid #444;
+  padding: 24px 36px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 360px;
+}
+
+.settlement-card h2 {
+  font-size: 24px;
+}
+
+.settlement-details {
+  font-size: 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settlement-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.positive { color: #4CAF50; }
+.negative { color: #F44336; }
+
+.settlement-points {
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+/* === 商店 === */
+#shop-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.shop-container {
+  background: #1a1a1a;
+  border: 2px solid #444;
+  padding: 20px;
+  width: 800px;
+  max-height: 540px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shop-container h2 {
+  font-size: 20px;
+  text-align: center;
+  color: #FFD700;
+}
+
+.shop-points {
+  font-size: 14px;
+  color: #FFD700;
+  text-align: center;
+}
+
+.shop-tabs {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+}
+
+.shop-tab {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 20px;
+  background: #333;
+  color: #aaa;
+  border: 1px solid #555;
+  cursor: pointer;
+}
+.shop-tab.active {
+  background: #555;
+  color: #fff;
+}
+
+/* === 商店网格 === */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.shop-card {
+  background: #222;
+  border: 2px solid #333;
+  padding: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s;
+  position: relative;
+}
+.shop-card:hover {
+  border-color: #666;
+}
+
+.shop-card-preview {
+  width: 100%;
+  height: 100px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.shop-card-preview.empty {
+  background: #1a1a1a;
+}
+.shop-card-preview img {
+  max-width: 130%;
+  max-height: 130%;
+  image-rendering: pixelated;
+}
+.shop-card-empty {
+  font-size: 12px;
+  color: #555;
+}
+
+.shop-card-name {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.shop-card-badge-equipped {
+  display: block;
+  font-size: 10px;
+  color: #4CAF50;
+  margin-top: 2px;
+}
+
+.shop-card-price {
+  display: block;
+  font-size: 10px;
+  color: #FFD700;
+  margin-top: 2px;
+}
+
+/* === 商店详情弹窗 === */
+.shop-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-detail-card {
+  background: #1a1a1a;
+  border: 2px solid #555;
+  padding: 24px;
+  width: 560px;
+  max-width: 90vw;
+  position: relative;
+}
+
+.shop-detail-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+.shop-detail-close:hover {
+  color: #fff;
+}
+
+.shop-detail-body {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.shop-detail-image {
+  width: 180px;
+  height: 180px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.shop-detail-image img {
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: pixelated;
+}
+.shop-detail-empty {
+  font-size: 14px;
+  color: #555;
+}
+
+.shop-detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.shop-detail-name {
+  font-size: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.shop-detail-desc {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.shop-detail-ability {
+  font-size: 11px;
+  color: #FFD700;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.shop-detail-btn {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 28px;
+  border: 2px solid #777;
+  cursor: pointer;
+  color: #fff;
+  align-self: flex-start;
+}
+.shop-detail-btn:disabled {
+  background: #333;
+  color: #666;
+  cursor: default;
+}
+.shop-detail-btn-use {
+  background: #1976D2;
+  border-color: #2196F3;
+}
+.shop-detail-btn-use:hover {
+  background: #2196F3;
+}
+.shop-detail-btn-buy {
+  background: #388E3C;
+  border-color: #4CAF50;
+}
+.shop-detail-btn-buy:hover {
+  background: #4CAF50;
+}
+
+/* === 欢迎弹窗 === */
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.welcome-text {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 2.2;
+  text-align: center;
+  max-width: 480px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  min-height: 100px;
+}
+
+.welcome-btn {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 32px;
+  color: #fff;
+  background: transparent;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+.welcome-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* === 离开弹窗 === */
+.leave-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.leave-text {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 2;
+  text-align: center;
+  max-width: 440px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  min-height: 60px;
+}
+
+.leave-btn-group {
+  display: flex;
+  gap: 20px;
+}
+
+.leave-btn {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 8px 24px;
+  color: #fff;
+  background: transparent;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+.leave-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.leave-btn-danger {
+  border-color: #F44336;
+  color: #F44336;
+}
+.leave-btn-danger:hover {
+  background: rgba(244, 67, 54, 0.2);
+}
+
+/* === 致谢画面 === */
+.credits-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.credits-image {
+  width: 200px;
+  height: auto;
+  image-rendering: pixelated;
+  animation: creditsFadeIn 0.8s ease-out;
+}
+
+.credits-text {
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  min-height: 24px;
+  font-family: 'Press Start 2P', 'SimHei', monospace;
+  letter-spacing: 2px;
+}
+
+@keyframes creditsFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
