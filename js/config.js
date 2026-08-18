@@ -18,6 +18,7 @@ export const CONFIG = {
   CAT_MAX_HP: 100,
   ENEMY_MAX_HP: 200,
   RELOAD_TIME: 250,
+  PLAYER_RELOAD_TIME: 750,
 
   // === 三态动画参数 ===
   ATTACK_STATE_DURATION: 300,
