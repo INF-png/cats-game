@@ -41,7 +41,7 @@ export const CONFIG = {
   AI_RICOCHET_ANGLE_COUNT: 24,   // 反弹模拟尝试的角度数量
   // 难度分级：移速递增，攻击间隔缩短（普通模式最高移速=玩家移速）
   AI_SPEED: { 0: 2, 1: 3, 2: 4 },          // 简单/普通/困难
-  AI_SHOOT_INTERVAL: { 0: 1500, 1: 800, 2: 400 }, // 攻击间隔(ms)
+  AI_SHOOT_INTERVAL: { 0: 1500, 1: 1000, 2: 500 }, // 攻击间隔(ms)
 
   // === 积分与奖惩 ===
   POINTS: {
