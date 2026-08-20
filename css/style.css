@@ -214,6 +214,7 @@ body {
 }
 
 .menu-character-preview {
+  position: relative;
   width: 160px;
   height: 160px;
   background: #111;
@@ -229,6 +230,82 @@ body {
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
+}
+
+/* 帮助按钮 */
+.menu-help-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+.menu-help-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 帮助弹窗 */
+.help-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-popup {
+  background: #1a1a2e;
+  border: 2px solid #444;
+  padding: 28px 32px;
+  max-width: 520px;
+  width: 90%;
+  position: relative;
+}
+.help-popup-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.help-popup-text {
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+.help-popup-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+.help-popup-close:hover {
+  color: #fff;
 }
 
 .menu-buttons {
