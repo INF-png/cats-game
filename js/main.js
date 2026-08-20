@@ -219,14 +219,13 @@ class Game {
       this.player.move({ x: dx / len, y: dy / len });
     }
 
+    // 瞄准：手机端摇杆控制，电脑端鼠标控制
     if (this.touch.moveDir.x !== 0 || this.touch.moveDir.y !== 0) {
       this.player.aimAt(
         this.player.x + this.touch.moveDir.x * 100,
         this.player.y + this.touch.moveDir.y * 100
       );
-    } else if (dx !== 0 || dy !== 0) {
-      this.player.aimAt(this.player.x + dx * 100, this.player.y + dy * 100);
-    } else if (this.touch.attacking || kb[bindings.shoot] || this.input.mouse.down) {
+    } else {
       const canvasRect = this.canvas.getBoundingClientRect();
       const mouseX = this.input.mouse.x - canvasRect.left;
       const mouseY = this.input.mouse.y - canvasRect.top;
