@@ -476,6 +476,47 @@ export class UIManager {
     }, 100);
   }
 
+  // === 帮助弹窗 ===
+  showHelpPopup() {
+    const overlay = document.createElement('div');
+    overlay.className = 'help-popup-overlay';
+
+    const popup = document.createElement('div');
+    popup.className = 'help-popup';
+
+    const title = document.createElement('p');
+    title.className = 'help-popup-title';
+    title.textContent = 'CATs对战说明咕嘎';
+
+    const tips = [
+      '不同的猫猫会有它们独特的技能',
+      '在对战中，单局的限时是120s，只有在限定时间内击败所有敌方猫猫才能够获胜',
+      '地图中每20s就会刷新血包，可以回复玩家50%的总生命值',
+      '单局计时进入最后30s的时候，所有敌方猫猫都会进入应激状态，移动速度和攻击速度大幅提升',
+      '在30s内击败所有敌方猫猫可以获得速胜奖励咕嘎',
+    ];
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'help-popup-close';
+    closeBtn.textContent = 'X';
+    closeBtn.onclick = () => overlay.remove();
+
+    popup.appendChild(title);
+    tips.forEach(t => {
+      const line = document.createElement('p');
+      line.className = 'help-popup-text';
+      line.textContent = t;
+      popup.appendChild(line);
+    });
+    popup.appendChild(closeBtn);
+
+    overlay.appendChild(popup);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    document.body.appendChild(overlay);
+  }
+
   // === 创建 UI 元素 ===
   createMenuUI() {
     const el = document.createElement('div');
@@ -485,6 +526,7 @@ export class UIManager {
       <h1 class="game-title" style="display:none">${getText('gameTitle')}</h1>
       <div class="menu-character-preview">
         <img id="menu-char-preview" class="menu-char-anim" src="assets/skins/default/idle.png" data-idle="assets/skins/default/idle.png" data-attack="assets/skins/default/attack.png" alt="character" onerror="this.style.display='none';">
+        <button id="btn-help" class="menu-help-btn" title="帮助">?</button>
       </div>
       <div class="menu-buttons">
         <button id="btn-start" class="menu-btn">${getText('btnStart')}</button>
@@ -528,6 +570,10 @@ export class UIManager {
     document.getElementById('btn-lang-zh').addEventListener('click', () => {
       setLanguage('zh');
       this.applyLanguage();
+    });
+
+    document.getElementById('btn-help').addEventListener('click', () => {
+      this.showHelpPopup();
     });
   }
 
